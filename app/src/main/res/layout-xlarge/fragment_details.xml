@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailsFragment">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2E00DDFF">
+        android:background="#2F00DDFF">
 
         <TextView
             android:id="@+id/anzeigeStadt"
@@ -17,11 +14,12 @@
             android:layout_height="wrap_content"
             android:text="@string/keine_stadt_ausgew_hlt"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
+            android:textSize="48sp"
             android:typeface="serif"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

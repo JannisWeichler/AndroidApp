@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@android:color/background_dark"
-        android:textSize="32sp"
+        android:textSize="48sp"
         android:typeface="serif" />
 </LinearLayout>
