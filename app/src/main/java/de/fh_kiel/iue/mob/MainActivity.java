@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.Listener {
 
-    String stadtname2 = "Stadtname";
+
 
     private static class DataContainer{
             static ArrayList<String> initializeData () {
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         }
         else{
              Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-                    intent.putExtra(stadtname2,stadtname);
+                    intent.putExtra(DetailsActivity.STADTNAME,stadtname);
                     startActivityForResult(intent,2);
         }
     }
@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
+        if(requestCode==2 && data != null)
         {
-            TextView stadtname = findViewById(R.id.anzeigeStadt);
-            String stadtname1=data.getStringExtra(stadtname2);
-            stadtname.setText(stadtname1);
+            String stadtname1=data.getStringExtra(DetailsActivity.STADTNAME);
+            DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+            fragment.stadtanzeigen(stadtname1);
         }
     }
 
