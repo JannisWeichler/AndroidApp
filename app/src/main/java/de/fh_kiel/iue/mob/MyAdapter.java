@@ -40,12 +40,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     }
 
-    private ArrayList<String> mData;
+    private ArrayList<Stadt> mData;
 
 
 
 
-    MyAdapter(ArrayList<String> data, Listener aListener) {
+    MyAdapter(ArrayList<Stadt> data, Listener aListener) {
         mData = data;
         mListener = aListener;
     }
@@ -61,7 +61,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position){
-        holder.mTextView.setText(mData.get(position));
+        holder.mTextView.setText(mData.get(position).getStadt());
     }
 
     @Override

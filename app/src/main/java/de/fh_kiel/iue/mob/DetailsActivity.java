@@ -7,6 +7,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -18,9 +23,14 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        Stadtausgeben();
+
+        /*
         String input = getIntent().getStringExtra(STADTNAME);
         DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
         fragment.stadtanzeigen(input);
+
+         */
 
     }
 
@@ -42,5 +52,36 @@ public class DetailsActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    ArrayList<Stadt> stadtArrayList = new ArrayList<>();
+    ArrayList<String> auslesenArrayList;
+    int position;
+
+    void Stadtausgeben(){
+        Intent intent = getIntent();
+
+        //TextView stadttv = findViewById(R.id.town);
+        //TextView temp = findViewById(R.id.temp);
+
+        auslesenArrayList = intent.getStringArrayListExtra("array");
+
+        for(int i=0; i<auslesenArrayList.size();++i){
+            Stadt stadt2 = new Gson().fromJson(auslesenArrayList.get(i),Stadt.class);
+            stadtArrayList.add(stadt2);
+        }
+
+        position = intent.getIntExtra("test",-1);
+
+        String input = stadtArrayList.get(position).getStadt();
+
+        DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
+        fragment.stadtanzeigen(input);
+
+        //stadttv.setText(input);
+        //temp.setText(String.valueOf(stadtArrayList.get(position).getTemp()));
+
+    }
+
+
 
 }
