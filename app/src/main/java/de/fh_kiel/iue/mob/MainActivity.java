@@ -23,6 +23,35 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.Listener,MyAsyncTask.Listener {
 
+    public MyAdapter myAdapter = new MyAdapter(DataContainer.daten,this);
+    public ProgressBar progressBar;
+    public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    public final static String POSITION = "positon";
+    public final static String ARRAY = "array";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(myAdapter);
+
+
+    }
+
+    public static class DataContainer{
+        static ArrayList<Stadt> daten = new ArrayList<Stadt>();
+
+        public static void adddata(int i){
+            Stadt.Main main = new Stadt.Main(i,i,i,i,i);
+            Stadt.Wind wind = new Stadt.Wind(i,i);
+            Stadt.Cloud cloud = new Stadt.Cloud(i);
+            Stadt.Sys sys = new Stadt.Sys(i,i);
+            daten.add(new Stadt("stadt"+i,main,wind,sys,cloud));
+        }
+    }
 
     @Override
     public void datachanged() {
@@ -38,34 +67,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     @Override
     public void toastausgeben(Boolean result) {
         progressBar.setVisibility(View.GONE);
-        //String i = result.toString();
         Toast.makeText(this,"Hat geklappt "+ result,Toast.LENGTH_SHORT).show();
-    }
-
-
-
-    public static class DataContainer{
-        static ArrayList<Stadt> daten = new ArrayList<Stadt>();
-
-        public static void adddata(int i){
-            daten.add(new Stadt("Stadt"+i,i+15,i+12));
-        }
-    }
-
-    public MyAdapter myAdapter = new MyAdapter(DataContainer.daten,this);
-    public ProgressBar progressBar;
-    public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(myAdapter);
-
-
     }
 
     @Override
@@ -77,26 +79,20 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
 
     @Override
-    public void itemClicked(int position, String stadtname){
+    public void itemClicked(int position){
         if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation){
             TextView textView = findViewById(R.id.anzeigeStadt);
-            textView.setText(stadtname);
-
+            textView.setText(DataContainer.daten.get(position).getStadtName());
         }
         else{
-             //Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-             //       intent.putExtra(DetailsActivity.STADTNAME,stadtname);
-             //       startActivityForResult(intent,2);
-
-
             ArrayList<String> stadtArrayList = new ArrayList<>();
             for(int i=0;i<DataContainer.daten.size();++i){
                 String json = new Gson().toJson(DataContainer.daten.get(i));
                 stadtArrayList.add(json);
             }
             Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-            intent.putExtra("test",position);
-            intent.putStringArrayListExtra("array",stadtArrayList);
+            intent.putExtra(POSITION,position);
+            intent.putStringArrayListExtra(ARRAY,stadtArrayList);
             startActivityForResult(intent,2);
         }
     }
@@ -109,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         if(requestCode==2 && data != null)
         {
             String stadtname1=data.getStringExtra(DetailsActivity.STADTNAME);
+            //int position = data.get(pos)
             DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
             fragment.stadtanzeigen(stadtname1);
         }
@@ -135,7 +132,5 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 }

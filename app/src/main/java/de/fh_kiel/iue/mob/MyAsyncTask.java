@@ -32,7 +32,6 @@ class MyAsyncTask extends AsyncTask<Integer,Integer,Boolean> {
             SystemClock.sleep(integers[2]);
             publishProgress(i);
         }
-
         return null;
     }
 
@@ -41,8 +40,6 @@ class MyAsyncTask extends AsyncTask<Integer,Integer,Boolean> {
     protected void onProgressUpdate(Integer...progress){
         mListener.datachanged();
         mListener.progress(progress[0]);
-
-
     }
 
     @Override

@@ -14,10 +14,16 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public interface Listener{
-        void itemClicked(int position, String stadtname);
+        void itemClicked(int position);
     }
 
     private Listener mListener;
+    private ArrayList<Stadt> mData;
+
+    MyAdapter(ArrayList<Stadt> data, Listener aListener) {
+        mData = data;
+        mListener = aListener;
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
@@ -32,22 +38,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    String input = mTextView.getText().toString();
-                    mListener.itemClicked(pos, input);
+                    mListener.itemClicked(pos);
                 }
             });
         }
 
-    }
-
-    private ArrayList<Stadt> mData;
-
-
-
-
-    MyAdapter(ArrayList<Stadt> data, Listener aListener) {
-        mData = data;
-        mListener = aListener;
     }
 
     @NonNull
@@ -58,10 +53,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return new MyAdapter.MyViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position){
-        holder.mTextView.setText(mData.get(position).getStadt());
+        holder.mTextView.setText(mData.get(position).getStadtName());
     }
 
     @Override

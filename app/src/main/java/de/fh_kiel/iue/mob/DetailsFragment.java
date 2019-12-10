@@ -16,12 +16,9 @@ import android.widget.TextView;
  */
 public class DetailsFragment extends Fragment {
 
-
-
     public DetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +33,4 @@ public class DetailsFragment extends Fragment {
         String input = stadtname;
         textView.setText(input);
     }
-
-
 }
