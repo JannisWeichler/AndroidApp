@@ -8,23 +8,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
     public static final String STADTNAME = "Stadtname";
-    ArrayList<Stadt> stadtArrayList = new ArrayList<>();
+    List<Stadt> stadtList = new ArrayList<>();
     ArrayList<String> auslesenArrayList;
     int position;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        orientationcheck();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_details);
-        stadtausgeben();
+        datenAusgeben();
+        orientationcheck();
     }
 
     @Override
@@ -38,37 +40,24 @@ public class DetailsActivity extends AppCompatActivity {
     private void orientationcheck(){
         if(Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation){
             Intent intent = getIntent();
-            auslesenArrayList = intent.getStringArrayListExtra(MainActivity.ARRAY);
-            position = intent.getIntExtra(MainActivity.POSITION,-1);
 
-            for(int i=0; i<auslesenArrayList.size();++i){
-                Stadt stadt2 = new Gson().fromJson(auslesenArrayList.get(i),Stadt.class);
-                stadtArrayList.add(stadt2);
-            }
-
-            String input = stadtArrayList.get(position).getStadtName();
-
-            intent.putExtra(STADTNAME,input);
+            intent.putExtra(DatenBearbeiten.POSITION,position);
+            intent.putExtra(DatenBearbeiten.STADT_LISTE,DatenBearbeiten.listInStringStadt(stadtList));
             setResult(2,intent);
             finish();
         }
     }
 
-    void stadtausgeben(){
+
+
+    void datenAusgeben(){
         Intent intent = getIntent();
 
-        auslesenArrayList = intent.getStringArrayListExtra(MainActivity.ARRAY);
-        position = intent.getIntExtra(MainActivity.POSITION,-1);
-
-        for(int i=0; i<auslesenArrayList.size();++i){
-            Stadt stadt2 = new Gson().fromJson(auslesenArrayList.get(i),Stadt.class);
-            stadtArrayList.add(stadt2);
-        }
-
-        String input = stadtArrayList.get(position).getStadtName();
+        stadtList = DatenBearbeiten.intentAuslesenStadtList(intent);
+        position = DatenBearbeiten.intentAuslesenPosition(intent);
 
         DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
-        fragment.stadtanzeigen(input);
+        fragment.datenAnzeigen(stadtList,position);
     }
 
 

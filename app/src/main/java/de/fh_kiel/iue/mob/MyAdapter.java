@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
@@ -18,9 +19,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     private Listener mListener;
-    private ArrayList<Stadt> mData;
+    private List<Stadt> mData;
 
-    MyAdapter(ArrayList<Stadt> data, Listener aListener) {
+    MyAdapter(List<Stadt> data, Listener aListener) {
         mData = data;
         mListener = aListener;
     }

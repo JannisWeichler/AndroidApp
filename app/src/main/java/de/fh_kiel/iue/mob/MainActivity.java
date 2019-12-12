@@ -13,12 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.Listener,MyAsyncTask.Listener {
@@ -26,30 +31,47 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public MyAdapter myAdapter = new MyAdapter(DataContainer.daten,this);
     public ProgressBar progressBar;
     public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-    public final static String POSITION = "positon";
-    public final static String ARRAY = "array";
+
+    private boolean demo=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (demo==false) {
+            loadStadtList();
+        }
+
+
+        //Diese Abfrage dient nur zum Füllen der Liste
+        //Die Liste kann danach mit Volley genutzt werden
+        //Nach einfügen der Funktion Stadt Hinzufügen und löschen kann die Abfrage gelöscht werden
+        if (DataContainer.daten.size()<1||DataContainer.daten.get(0).getStadtName() == DatenBearbeiten.KEINE_STADT_VORHANDEN){
+            DataContainer.daten.clear();
+            Stadt.Main main = new Stadt.Main(0,0,0,0,0);
+            Stadt.Wind wind = new Stadt.Wind(0,0);
+            Stadt.Sys sys = new Stadt.Sys(0,0);
+            Stadt.Cloud cloud = new Stadt.Cloud(0);
+            DataContainer.adddata(new Stadt("Kiel",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Köln",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Kall",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Laboe",main,wind,sys,cloud));
+        }
+
+
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
-
-
     }
 
     public static class DataContainer{
-        static ArrayList<Stadt> daten = new ArrayList<Stadt>();
+        static List<Stadt> daten = new ArrayList<Stadt>();
 
-        public static void adddata(int i){
-            Stadt.Main main = new Stadt.Main(i,i,i,i,i);
-            Stadt.Wind wind = new Stadt.Wind(i,i);
-            Stadt.Cloud cloud = new Stadt.Cloud(i);
-            Stadt.Sys sys = new Stadt.Sys(i,i);
-            daten.add(new Stadt("stadt"+i,main,wind,sys,cloud));
+        public static void adddata(Stadt stadt){
+            daten.add(stadt);
         }
     }
 
@@ -78,24 +100,26 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     }
 
 
+
+
     @Override
     public void itemClicked(int position){
         if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation){
-            TextView textView = findViewById(R.id.anzeigeStadt);
-            textView.setText(DataContainer.daten.get(position).getStadtName());
+            DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+            fragment.datenAnzeigen(DataContainer.daten,position);
         }
         else{
-            ArrayList<String> stadtArrayList = new ArrayList<>();
-            for(int i=0;i<DataContainer.daten.size();++i){
-                String json = new Gson().toJson(DataContainer.daten.get(i));
-                stadtArrayList.add(json);
-            }
+            String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
             Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-            intent.putExtra(POSITION,position);
-            intent.putStringArrayListExtra(ARRAY,stadtArrayList);
+            intent.putExtra(DatenBearbeiten.DEMO,demo);
+            intent.putExtra(DatenBearbeiten.POSITION,position);
+            intent.putExtra(DatenBearbeiten.STADT_LISTE, stadtListString);
             startActivityForResult(intent,2);
         }
     }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -104,12 +128,14 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         // check if the request code is same as what is passed  here it is 2
         if(requestCode==2 && data != null)
         {
-            String stadtname1=data.getStringExtra(DetailsActivity.STADTNAME);
-            //int position = data.get(pos)
+            DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
             DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-            fragment.stadtanzeigen(stadtname1);
+            fragment.datenAnzeigen(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
         }
     }
+
+
+
 
     public void onStartAsyncTask(View v){
         progressBar = findViewById(R.id.progressBar);
@@ -119,8 +145,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         Integer increment = 1;
         Integer sleep = 50;
 
+        DataContainer.daten.clear();
         mAsyncTask.execute(num,increment,sleep);
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -133,4 +163,68 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         }
     }
 
+
+
+
+    //Load StadtList
+    public void loadStadtList (){
+        FileInputStream fis = null;
+        List<Stadt> stadtList = new ArrayList<>();
+
+        try {
+            fis = openFileInput(DatenBearbeiten.FILE_STADT);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String text;
+
+            while ((text = br.readLine()) != null){
+                DatenBearbeiten.stringAuslesenStadtList(text);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (stadtList.size()<1){
+            stadtList.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN,new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
+        }
+        DataContainer.daten.clear();
+        DataContainer.daten.addAll(stadtList);
+        myAdapter.notifyDataSetChanged();
+    }
+
+    //Save StadtListe
+    public void saveSpielt (List<Stadt> stadtList){
+        FileOutputStream fos = null;
+
+        String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
+
+
+        try {
+            fos = openFileOutput(DatenBearbeiten.FILE_STADT, MODE_PRIVATE);
+            fos.flush();
+            fos.write(stadtListString.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (fos!=null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

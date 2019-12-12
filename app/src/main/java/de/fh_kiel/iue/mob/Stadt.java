@@ -111,5 +111,12 @@ public class Stadt {
     public int getCloudAll(){
         return cloud.all;
     }
+
+    public void setData (Stadt data){
+        this.main = data.main;
+        this.cloud = data.cloud;
+        this.sys = data.sys;
+        this.wind = data.wind;
+    }
 }
 

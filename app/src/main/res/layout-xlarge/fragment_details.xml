@@ -9,7 +9,7 @@
         android:background="#2F00DDFF">
 
         <TextView
-            android:id="@+id/anzeigeStadt"
+            android:id="@+id/textViewStadtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/keine_stadt_ausgew_hlt"

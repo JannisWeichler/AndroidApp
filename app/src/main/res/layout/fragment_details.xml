@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/anzeigeStadt"
+            android:id="@+id/textViewStadtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/keine_stadt_ausgew_hlt"
