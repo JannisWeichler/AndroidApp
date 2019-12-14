@@ -155,15 +155,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            case R.id.menue_refresh:
-                onStartAsyncTask(findViewById(R.id.menue_refresh));
+            case R.id.menue_demodaten:
+                onStartAsyncTask(findViewById(R.id.menue_demodaten));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 
     //Load StadtList
