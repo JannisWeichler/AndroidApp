@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 public class WetterDaten {
+    /*
 
     public static final String TAG = "VolleyTAG";
 
@@ -62,5 +63,5 @@ public class WetterDaten {
 
         requestQueue.add(stringRequest1);
     }
-
+    */
 }

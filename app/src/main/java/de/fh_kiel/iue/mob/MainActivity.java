@@ -57,7 +57,18 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
             DataContainer.adddata(new Stadt("Kiel",main,wind,sys,cloud));
             DataContainer.adddata(new Stadt("Köln",main,wind,sys,cloud));
             DataContainer.adddata(new Stadt("Kall",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Laboe",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("München",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Hamburg",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Leipzig",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Dortmund",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Frankfurt",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Jevenstedt",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Rom",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Madrid",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Mailand",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Chicago",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("Seattle",main,wind,sys,cloud));
+            DataContainer.adddata(new Stadt("klapptnicht",main,wind,sys,cloud));
         }
 
 

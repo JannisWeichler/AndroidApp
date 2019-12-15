@@ -3,23 +3,112 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2F00DDFF">
+        android:background="#2E00DDFF"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewStadtName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/keine_stadt_ausgew_hlt"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="48sp"
-            android:typeface="serif"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textSize="32sp"
+            android:typeface="serif" />
 
+
+        <TextView
+            android:id="@+id/textViewTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/textViewPressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewHumidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewTempMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewTempMax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewDeg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewSunrise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewSunset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/textViewCloud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif"/>
+
+    </LinearLayout>
 </FrameLayout>
