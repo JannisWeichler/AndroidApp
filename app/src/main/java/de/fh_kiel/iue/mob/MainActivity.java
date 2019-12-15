@@ -12,7 +12,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
             loadStadtList();
         }
 
+        /*
+
 
         //Diese Abfrage dient nur zum Füllen der Liste
         //Die Liste kann danach mit Volley genutzt werden
@@ -71,12 +76,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
             DataContainer.adddata(new Stadt("klapptnicht",main,wind,sys,cloud));
         }
 
+         */
+
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
+
     }
+
+
 
     public static class DataContainer{
         static List<Stadt> daten = new ArrayList<Stadt>();
@@ -162,12 +172,48 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
 
 
+    public void EchtDatenAnzeigen(){
+        DataContainer.daten.clear();
+        Stadt.Main main = new Stadt.Main(0,0,0,0,0);
+        Stadt.Wind wind = new Stadt.Wind(0,0);
+        Stadt.Sys sys = new Stadt.Sys(0,0);
+        Stadt.Cloud cloud = new Stadt.Cloud(0);
+        DataContainer.adddata(new Stadt("Kiel",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Köln",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Kall",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("München",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Hamburg",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Leipzig",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Dortmund",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Frankfurt",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Jevenstedt",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Rom",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Madrid",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Mailand",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Chicago",main,wind,sys,cloud));
+        DataContainer.adddata(new Stadt("Seattle",main,wind,sys,cloud));
+        saveStadtList(DataContainer.daten);
+        myAdapter.notifyDataSetChanged();
+
+    }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.menue_demodaten:
                 onStartAsyncTask(findViewById(R.id.menue_demodaten));
+                return true;
+            case R.id.menue_Echtdaten:
+                EchtDatenAnzeigen();
+                return true;
+            case R.id.menue_neuestadt:
+                EditText editText = findViewById(R.id.editTextNeueStadt);
+                Button button = findViewById(R.id.buttonNeueStadt);
+                new NeueStadt(editText,button,myAdapter);
+                NeueStadt.neueStadt1();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -212,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     }
 
     //Save StadtListe
-    public void saveSpielt (List<Stadt> stadtList){
+    public void saveStadtList (List<Stadt> stadtList){
         FileOutputStream fos = null;
 
         String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);

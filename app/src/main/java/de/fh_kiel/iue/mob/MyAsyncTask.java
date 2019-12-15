@@ -17,22 +17,22 @@ class MyAsyncTask extends AsyncTask<Integer,Integer,Boolean> {
     private ProgressBar mprogressbar = null;
     private MyAdapter mAdapter = null;
 
-    MyAsyncTask(Listener listener){
-        mListener = listener;
-    }
+
+    MyAsyncTask(Listener listener){ mListener = listener; }
 
 
     @Override
     protected Boolean doInBackground(Integer... integers) {
 
 
-        for(int i=0; i<= integers[0]; i+=integers[1]){
+        for(int i=0; i<= integers[0]; i+=integers[1]) {
             //mListener.fill(i,daten);
-            Stadt stadt = new Stadt("stadt "+i, new Stadt.Main(i,i,i,i,i), new Stadt.Wind(i,i), new Stadt.Sys(i,i), new Stadt.Cloud(i));
+            Stadt stadt = new Stadt("stadt " + i, new Stadt.Main(i, i, i, i, i), new Stadt.Wind(i, i), new Stadt.Sys(i, i), new Stadt.Cloud(i));
             MainActivity.DataContainer.adddata(stadt);
             SystemClock.sleep(integers[2]);
             publishProgress(i);
         }
+
         return null;
     }
 

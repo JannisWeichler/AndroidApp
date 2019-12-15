@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menue_Echtdaten"
+        android:title="Echtdaten" />
+    <item
         android:id="@+id/menue_demodaten"
         android:title="Demodaten" />
     <item

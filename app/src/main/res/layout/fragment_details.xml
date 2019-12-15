@@ -27,91 +27,91 @@
             android:id="@+id/textViewTemp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewPressure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewHumidity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewTempMin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewTempMax"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewSpeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewDeg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewSunrise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewSunset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/textViewCloud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:typeface="serif"/>
+            android:textSize="28sp"
+            android:typeface="serif" />
 
     </LinearLayout>
 </FrameLayout>

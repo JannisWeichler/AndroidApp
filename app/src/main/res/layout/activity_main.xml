@@ -19,7 +19,15 @@
             android:text="Stadtauswahl"
             android:textColor="@android:color/black"
             android:textSize="32sp"
-            android:typeface="serif" />
+            android:typeface="serif"
+            android:visibility="visible" />
+
+
+        <fragment
+            android:id="@+id/fragment3"
+            android:name="de.fh_kiel.iue.mob.NeueStadt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/progressBar"

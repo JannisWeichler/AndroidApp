@@ -13,6 +13,12 @@
         android:textSize="48sp"
         android:typeface="serif" />
 
+    <fragment
+        android:id="@+id/fragment5"
+        android:name="de.fh_kiel.iue.mob.NeueStadt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
