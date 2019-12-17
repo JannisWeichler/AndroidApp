@@ -58,11 +58,14 @@ public class NeueStadt extends Fragment {
                     MainActivity.DataContainer.daten.clear();
                 }
                 MainActivity.DataContainer.adddata(new Stadt(neueStadt,main,wind,sys,cloud));
+
                 mAdapter.notifyDataSetChanged();
                 button.setVisibility(View.GONE);
                 editText.setVisibility(View.GONE);
             }
         });
     }
+
+
 
 }

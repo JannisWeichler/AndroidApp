@@ -136,7 +136,7 @@ public class DetailsFragment extends Fragment {
     public void saveStadtList (List<Stadt> stadtList){
         FileOutputStream fos = null;
 
-        String stadtListString = DatenBearbeiten.listInStringStadt(MainActivity.DataContainer.daten);
+        String stadtListString = DatenBearbeiten.listInStringStadt(stadtList);
 
 
         try {

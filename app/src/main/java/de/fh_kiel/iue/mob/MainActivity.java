@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,14 +42,25 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public static boolean load=false;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (demo==false) {
-            loadStadtList();
+        if (savedInstanceState!=null){
+            DataContainer.daten.clear();
+            DataContainer.daten.addAll(DatenBearbeiten.stringAuslesenStadtList(savedInstanceState.getString(DatenBearbeiten.STADT_LISTE)));
+            demo = savedInstanceState.getBoolean(DatenBearbeiten.DEMO);
+        }else{
+            if (demo==false){
+                loadStadtList();
+            }
         }
+
+
+
         if (DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
             EditText editText = findViewById(R.id.editTextNeueStadt);
             Button button = findViewById(R.id.buttonNeueStadt);
@@ -60,6 +73,29 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
 
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2 && data != null)
+        {
+            DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
+            DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+            fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+        savedInstanceState.putString(DatenBearbeiten.STADT_LISTE,DatenBearbeiten.listInStringStadt(DataContainer.daten));
+        savedInstanceState.putBoolean(DatenBearbeiten.DEMO,demo);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 
@@ -120,18 +156,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2 && data != null)
-        {
-            DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
-            DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-            fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
-        }
-    }
+
 
 
 
@@ -152,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
     public void EchtDatenAnzeigen(){
         DataContainer.daten.clear();
+        loadStadtList();
+        /*
         Stadt.Main main = new Stadt.Main(0,0,0,0,0);
         Stadt.Wind wind = new Stadt.Wind(0,0);
         Stadt.Sys sys = new Stadt.Sys(0,0);
@@ -170,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         DataContainer.adddata(new Stadt("Mailand",main,wind,sys,cloud));
         DataContainer.adddata(new Stadt("Chicago",main,wind,sys,cloud));
         DataContainer.adddata(new Stadt("Seattle",main,wind,sys,cloud));
-        saveStadtList(DataContainer.daten);
+        saveStadtList(DataContainer.daten);*/
         myAdapter.notifyDataSetChanged();
 
     }
@@ -219,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
             String text;
 
             while ((text = br.readLine()) != null){
-                DatenBearbeiten.stringAuslesenStadtList(text);
+               stadtList.addAll(DatenBearbeiten.stringAuslesenStadtList(text));
             }
 
         } catch (FileNotFoundException e) {
