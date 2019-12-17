@@ -14,10 +14,6 @@ public class Stadt {
         this.wind = wind;
         this.sys = sys;
         this.cloud = cloud;
-        /*new Main(main.temp,main.pressure,main.humidity,main.temp_min,main.temp_max);
-        new Wind(wind.speed,wind.deg);
-        new Sys(sys.sunrise,sys.sunset);
-        new Cloud(cloud.all);*/
     }
 
 

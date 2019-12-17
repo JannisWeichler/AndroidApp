@@ -9,9 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +60,6 @@ public class DetailsActivity extends AppCompatActivity {
         position = DatenBearbeiten.intentAuslesenPosition(intent);
 
         DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
-        //fragment.datenAnzeigen(stadtList,position);
         fragment.loadStadtlist(stadtList,position);
     }
 

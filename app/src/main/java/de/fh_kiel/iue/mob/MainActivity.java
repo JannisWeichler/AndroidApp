@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -39,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
     public static boolean demo=false;
+    public static boolean load=false;
 
 
     @Override
@@ -55,38 +54,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
             new NeueStadt(editText,button,myAdapter);
             NeueStadt.neueStadt1();
         }
-
-        /*
-
-
-        //Diese Abfrage dient nur zum Füllen der Liste
-        //Die Liste kann danach mit Volley genutzt werden
-        //Nach einfügen der Funktion Stadt Hinzufügen und löschen kann die Abfrage gelöscht werden
-        if (DataContainer.daten.size()<1||DataContainer.daten.get(0).getStadtName() == DatenBearbeiten.KEINE_STADT_VORHANDEN){
-            DataContainer.daten.clear();
-            Stadt.Main main = new Stadt.Main(0,0,0,0,0);
-            Stadt.Wind wind = new Stadt.Wind(0,0);
-            Stadt.Sys sys = new Stadt.Sys(0,0);
-            Stadt.Cloud cloud = new Stadt.Cloud(0);
-            DataContainer.adddata(new Stadt("Kiel",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Köln",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Kall",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("München",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Hamburg",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Leipzig",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Dortmund",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Frankfurt",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Jevenstedt",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Rom",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Madrid",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Mailand",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Chicago",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("Seattle",main,wind,sys,cloud));
-            DataContainer.adddata(new Stadt("klapptnicht",main,wind,sys,cloud));
-        }
-
-         */
-
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -120,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public void toastausgeben(Boolean result) {
         progressBar.setVisibility(View.GONE);
         Toast.makeText(this,"Hat geklappt "+ result,Toast.LENGTH_SHORT).show();
+        load=false;
     }
 
     @Override
@@ -212,23 +180,29 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.menue_demodaten:
-                demo=true;
-                onStartAsyncTask(findViewById(R.id.menue_demodaten));
-                return true;
-            case R.id.menue_Echtdaten:
-                demo=false;
-                EchtDatenAnzeigen();
-                return true;
-            case R.id.menue_neuestadt:
-                EditText editText = findViewById(R.id.editTextNeueStadt);
-                Button button = findViewById(R.id.buttonNeueStadt);
-                new NeueStadt(editText,button,myAdapter);
-                NeueStadt.neueStadt1();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (load==false) {
+            switch (item.getItemId()) {
+                case R.id.menue_demodaten:
+                    load = true;
+                    demo = true;
+                    onStartAsyncTask(findViewById(R.id.menue_demodaten));
+                    return true;
+                case R.id.menue_Echtdaten:
+                    demo = false;
+                    EchtDatenAnzeigen();
+                    return true;
+                case R.id.menue_neuestadt:
+                    EditText editText = findViewById(R.id.editTextNeueStadt);
+                    Button button = findViewById(R.id.buttonNeueStadt);
+                    new NeueStadt(editText, button, myAdapter);
+                    NeueStadt.neueStadt1();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+        else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

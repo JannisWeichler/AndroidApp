@@ -74,8 +74,6 @@ public class DetailsFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     Stadt stadt = new Gson().fromJson(response, Stadt.class);
-                    //Log.i(DatenBearbeiten.TAG, response);
-                    //stadt [0] = localClass;
                     stadtList.get(position).setData(stadt);
                     datenAnzeigen(stadtList,position);
                     saveStadtList(stadtList);
@@ -108,14 +106,6 @@ public class DetailsFragment extends Fragment {
 
 
     public void datenAnzeigen(List<Stadt> stadtList, final Integer postion){
-        /*
-        if (MainActivity.demo==false) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-            //final String stadtname = stadtList.get(postion).getStadtName();
-            stadtList=DatenBearbeiten.loadStadtList(stadtList,postion,requestQueue);
-            //Stadt[] stadt = DatenBearbeiten.loadStadt(stadtList,postion,requestQueue);
-            //stadtList.get(postion).setData(stadt[0]);
-        }*/
         final TextView stadt = getActivity().findViewById(R.id.textViewStadtName);
         final TextView temp = getActivity().findViewById(R.id.textViewTemp);
         final TextView pressure = getActivity().findViewById(R.id.textViewPressure);
@@ -139,50 +129,6 @@ public class DetailsFragment extends Fragment {
         sunrise.setText("Sonnenaufgang " +String.valueOf(stadtList.get(postion).getSunrise()));
         sunset.setText("Sonnenuntergang " + String.valueOf(stadtList.get(postion).getSunset()));
         cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
-
-        //final String URL = "http://api.openweathermap.org/data/2.5/weather?appid=9e08d4137d8eaf7fc04882184d748f0e&units=metric&q=";
-/*
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Stadt localClass = new Gson().fromJson(response, Stadt.class);
-                    stadt.setText(stadtname);
-                    temp.setText("Temperatur :" + String.valueOf(localClass.getTemp()));
-                    //temp.setText("Temperatur" + String.valueOf(stadtList.get(postion).getTemp()));
-                    pressure.setText("Luftdruck :" + String.valueOf(localClass.getPressure()));
-                    humidity.setText("Feuchtigkeit :" + String.valueOf(localClass.getHumidity()));
-                    tempMin.setText("Temperatur min :" + String.valueOf(localClass.getTemp_min()));
-                    tempMax.setText("Temperatur max:" + String.valueOf(localClass.getTemp_max()));
-                    speed.setText("Wind " + String.valueOf(localClass.getSpeed()));
-                    deg.setText("Deg " + String.valueOf(localClass.getDeg()));
-                    sunrise.setText("Sonnenaufgang " + String.valueOf(localClass.getSunrise()));
-                    sunset.setText("Sonnenuntergang " + String.valueOf(localClass.getSunset()));
-                    cloud.setText("Wolken " + String.valueOf(localClass.getCloudAll()));
-
-                } catch (Exception ex) {
-
-                }
-
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "error fetching content: " + error.getMessage());
-            }
-        };
-
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL + stadtname, responseListener, errorListener) {
-            @Override
-            public Request.Priority getPriority() {
-                return Priority.IMMEDIATE;
-            }
-        };
-
-        requestQueue.add(stringRequest1);
-*/
     }
 
 
