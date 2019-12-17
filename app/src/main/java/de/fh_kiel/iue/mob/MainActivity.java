@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public ProgressBar progressBar;
     public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-    private boolean demo=false;
+    public static boolean demo=false;
 
 
     @Override
@@ -45,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
         if (demo==false) {
             loadStadtList();
+        }
+        if (DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
+            EditText editText = findViewById(R.id.editTextNeueStadt);
+            Button button = findViewById(R.id.buttonNeueStadt);
+            new NeueStadt(editText,button,myAdapter);
+            NeueStadt.neueStadt1();
         }
 
         /*
@@ -125,17 +134,18 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
 
     @Override
     public void itemClicked(int position){
-        if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation){
-            DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-            fragment.datenAnzeigen(DataContainer.daten,position);
-        }
-        else{
-            String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
-            Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-            intent.putExtra(DatenBearbeiten.DEMO,demo);
-            intent.putExtra(DatenBearbeiten.POSITION,position);
-            intent.putExtra(DatenBearbeiten.STADT_LISTE, stadtListString);
-            startActivityForResult(intent,2);
+        if (DataContainer.daten.get(position).getStadtName()!=DatenBearbeiten.KEINE_STADT_VORHANDEN) {
+            if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
+                DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+                fragment.loadStadtlist(DataContainer.daten, position);
+            } else {
+                String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                intent.putExtra(DatenBearbeiten.DEMO, demo);
+                intent.putExtra(DatenBearbeiten.POSITION, position);
+                intent.putExtra(DatenBearbeiten.STADT_LISTE, stadtListString);
+                startActivityForResult(intent, 2);
+            }
         }
     }
 
@@ -151,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
         {
             DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
             DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-            fragment.datenAnzeigen(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
+            fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
         }
     }
 
@@ -204,9 +214,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.Listene
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.menue_demodaten:
+                demo=true;
                 onStartAsyncTask(findViewById(R.id.menue_demodaten));
                 return true;
             case R.id.menue_Echtdaten:
+                demo=false;
                 EchtDatenAnzeigen();
                 return true;
             case R.id.menue_neuestadt:

@@ -7,12 +7,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.TextView;
 
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,9 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_details);
+
         datenAusgeben();
+
         orientationcheck();
     }
 
@@ -55,16 +56,15 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-    void datenAusgeben(){
+    public void datenAusgeben(){
         Intent intent = getIntent();
 
         stadtList = DatenBearbeiten.intentAuslesenStadtList(intent);
         position = DatenBearbeiten.intentAuslesenPosition(intent);
 
         DetailsFragment fragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
-        fragment.datenAnzeigen(stadtList,position);
+        //fragment.datenAnzeigen(stadtList,position);
+        fragment.loadStadtlist(stadtList,position);
     }
-
-
 
 }

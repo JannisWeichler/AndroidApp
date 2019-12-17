@@ -54,6 +54,9 @@ public class NeueStadt extends Fragment {
                 Stadt.Wind wind = new Stadt.Wind(0,0);
                 Stadt.Sys sys = new Stadt.Sys(0,0);
                 Stadt.Cloud cloud = new Stadt.Cloud(0);
+                if (MainActivity.DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
+                    MainActivity.DataContainer.daten.clear();
+                }
                 MainActivity.DataContainer.adddata(new Stadt(neueStadt,main,wind,sys,cloud));
                 mAdapter.notifyDataSetChanged();
                 button.setVisibility(View.GONE);
