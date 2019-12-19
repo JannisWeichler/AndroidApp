@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    tools:context=".ActivityDetails">
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="de.fh_kiel.iue.mob.DetailsFragment"
+        android:name="de.fh_kiel.iue.mob.FragmentDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="210dp"

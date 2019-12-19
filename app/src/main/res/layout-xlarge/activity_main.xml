@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/fragment5"
-        android:name="de.fh_kiel.iue.mob.NeueStadt"
+        android:name="de.fh_kiel.iue.mob.FragmentStadtHinzfuegen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

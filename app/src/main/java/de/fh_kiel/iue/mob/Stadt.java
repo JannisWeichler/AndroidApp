@@ -6,14 +6,14 @@ public class Stadt {
     private Main main;
     private Wind wind;
     private Sys sys;
-    private Cloud cloud;
+    private Cloud clouds;
 
     Stadt(String stadtName, Main main, Wind wind, Sys sys, Cloud cloud){
         this.stadtName = stadtName;
         this.main = main;
         this.wind = wind;
         this.sys = sys;
-        this.cloud = cloud;
+        this.clouds = cloud;
     }
 
 
@@ -105,12 +105,12 @@ public class Stadt {
     }
 
     public int getCloudAll(){
-        return cloud.all;
+        return clouds.all;
     }
 
     public void setData (Stadt data){
         this.main = data.main;
-        this.cloud = data.cloud;
+        this.clouds = data.clouds;
         this.sys = data.sys;
         this.wind = data.wind;
     }

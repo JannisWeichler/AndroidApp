@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ActivityMain">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
 
         <fragment
             android:id="@+id/fragment3"
-            android:name="de.fh_kiel.iue.mob.NeueStadt"
+            android:name="de.fh_kiel.iue.mob.FragmentStadtHinzfuegen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

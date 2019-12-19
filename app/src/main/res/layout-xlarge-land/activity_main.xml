@@ -21,7 +21,7 @@
 
         <fragment
             android:id="@+id/fragment6"
-            android:name="de.fh_kiel.iue.mob.NeueStadt"
+            android:name="de.fh_kiel.iue.mob.FragmentStadtHinzfuegen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="de.fh_kiel.iue.mob.DetailsFragment"
+        android:name="de.fh_kiel.iue.mob.FragmentDetails"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2" />
