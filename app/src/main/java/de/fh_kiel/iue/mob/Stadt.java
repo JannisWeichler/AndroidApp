@@ -7,6 +7,7 @@ public class Stadt {
     private String stadtName;
     private long dt;
     private long timezone;
+    private long letzteAkt;
     private Main main;
     private Wind wind;
     private Sys sys;
@@ -71,6 +72,14 @@ public class Stadt {
         this.stadtName = stadtName;
     }
 
+    public long getLetzteAkt() {
+        return letzteAkt;
+    }
+
+    public void setLetzteAkt(long letzeAkt){
+        this.letzteAkt = letzeAkt;
+    }
+
     public long getDt () {
         return dt;
     }
@@ -122,6 +131,7 @@ public class Stadt {
     public void setData (Stadt data){
         this.dt = data.dt;
         this.timezone = data.timezone;
+        this.letzteAkt = data.letzteAkt;
         this.main = data.main;
         this.clouds = data.clouds;
         this.sys = data.sys;

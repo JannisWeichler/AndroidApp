@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static de.fh_kiel.iue.mob.FragmentStadtHinzfuegen.editText;
 
 
 /**
@@ -44,6 +44,8 @@ public class FragmentDetails extends Fragment {
     public FragmentDetails() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +71,7 @@ public class FragmentDetails extends Fragment {
 
 
     //Daten aus Internet Laden
-    public void loadStadtVolley(){
+    void loadStadtVolley(){
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         final String stadtname = stadtList.get(position).getStadtName();
@@ -80,11 +82,15 @@ public class FragmentDetails extends Fragment {
             public void onResponse(String response) {
                 try {
                     Stadt stadt = new Gson().fromJson(response, Stadt.class);
+
+                    long letzeAkt = System.currentTimeMillis();
+                    stadt.setLetzteAkt(letzeAkt);
+
                     stadtList.get(position).setData(stadt);
                     datenAnzeigen(stadtList,position);
                     saveStadtList(stadtList);
                 } catch (Exception ex) {
-                    Toast.makeText(getActivity(),"keine Internetverbindung", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Fehler beim Laden von Daten", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -93,7 +99,10 @@ public class FragmentDetails extends Fragment {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(DatenBearbeiten.TAG, "error fetching content: " + error.getMessage());
+                Log.e(DatenBearbeiten.TAG, "error fetching content: " + error.getMessage()+hashCode());
+                if (error.networkResponse.statusCode==404){
+                    Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nStadt konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
+                }else
                 Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nÜberprüfen Sie Ihre Internetverbindung", Toast.LENGTH_LONG).show();
                 datenAnzeigen(stadtList,position);
             }
@@ -125,8 +134,10 @@ public class FragmentDetails extends Fragment {
         final TextView cloud = getActivity().findViewById(R.id.textViewCloud);
         final TextView dt = getActivity().findViewById(R.id.textViewDt);
 
-        Date sunriseDate =new Date((stadtList.get(postion).getSunrise()+stadtList.get(postion).getTimezone())*1000);
+        long sunriseEx = (stadtList.get(postion).getSunrise() + stadtList.get(postion).getTimezone() )*1000;
+        Date sunriseDate =new Date(sunriseEx);
         Date sunsetDate =new Date((stadtList.get(postion).getSunset()+stadtList.get(postion).getTimezone())*1000);
+        Date letzteAktDate = new Date(stadtList.get(postion).getLetzteAkt());
 
         stadt.setText(stadtList.get(postion).getStadtName());
         temp.setText("Temperatur :"+String.valueOf(stadtList.get(postion).getTemp()));
@@ -142,7 +153,8 @@ public class FragmentDetails extends Fragment {
         sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT.format(sunsetDate));
         cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
 
-        dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(new Date(stadtList.get(postion).getDt()*1000)));
+        dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(letzteAktDate));
+        //dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(new Date(stadtList.get(postion).getDt()*1000)));
     }
 
     //Save StadtListe

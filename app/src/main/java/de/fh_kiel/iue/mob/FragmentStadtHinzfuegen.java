@@ -1,19 +1,28 @@
 package de.fh_kiel.iue.mob;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+
 import java.util.List;
 
 
@@ -43,6 +52,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
         this.editText = editText;
         this.button = button;
         mAdapter = adapter;
+
     }
 
 
@@ -61,6 +71,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
             public void onClick(View v) {
                 String neueStadt = editText.getText().toString();
 
+
                 Stadt.Main main = new Stadt.Main(0,0,0,0,0);
                 Stadt.Wind wind = new Stadt.Wind(0,0);
                 Stadt.Sys sys = new Stadt.Sys(0,0);
@@ -74,9 +85,11 @@ public class FragmentStadtHinzfuegen extends Fragment {
                 mAdapter.notifyDataSetChanged();
                 button.setVisibility(View.GONE);
                 editText.setVisibility(View.GONE);
+
             }
         });
     }
+
 
 
 
