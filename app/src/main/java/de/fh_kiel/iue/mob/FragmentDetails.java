@@ -1,6 +1,7 @@
 package de.fh_kiel.iue.mob;
 
 
+import android.icu.util.TimeZone;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -100,7 +101,7 @@ public class FragmentDetails extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(DatenBearbeiten.TAG, "error fetching content: " + error.getMessage()+hashCode());
-                if (error.networkResponse.statusCode==404){
+                if (error.networkResponse!=null && error.networkResponse.statusCode==404){
                     Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nStadt konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
                 }else
                 Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nÜberprüfen Sie Ihre Internetverbindung", Toast.LENGTH_LONG).show();
@@ -134,10 +135,24 @@ public class FragmentDetails extends Fragment {
         final TextView cloud = getActivity().findViewById(R.id.textViewCloud);
         final TextView dt = getActivity().findViewById(R.id.textViewDt);
 
-        long sunriseEx = (stadtList.get(postion).getSunrise() + stadtList.get(postion).getTimezone() )*1000;
+
+        long sunriseEx = stadtList.get(postion).getSunrise()*1000;
+        long sunsetEX = stadtList.get(postion).getSunset()*1000;
+
         Date sunriseDate =new Date(sunriseEx);
-        Date sunsetDate =new Date((stadtList.get(postion).getSunset()+stadtList.get(postion).getTimezone())*1000);
+        Date sunsetDate =new Date(sunsetEX);
         Date letzteAktDate = new Date(stadtList.get(postion).getLetzteAkt());
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            TimeZone timeZone= TimeZone.getDefault();
+            sunriseEx += stadtList.get(postion).getTimezone()*1000-timeZone.getRawOffset();
+            sunriseDate.setTime(sunriseEx);
+            sunsetEX += stadtList.get(postion).getTimezone()*1000-timeZone.getRawOffset();
+            sunsetDate.setTime(sunsetEX);
+        }
+
+
 
         stadt.setText(stadtList.get(postion).getStadtName());
         temp.setText("Temperatur :"+String.valueOf(stadtList.get(postion).getTemp()));
@@ -147,14 +162,15 @@ public class FragmentDetails extends Fragment {
         tempMax.setText("Temperatur max:" +String.valueOf(stadtList.get(postion).getTemp_max()));
         speed.setText("Wind " + String.valueOf(stadtList.get(postion).getSpeed()));
         deg.setText("Deg " +String.valueOf(stadtList.get(postion).getDeg()));
-        //sunrise.setText("Sonnenaufgang " +String.valueOf(stadtList.get(postion).getSunrise()));
-        sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT.format(sunriseDate));
-        //sunset.setText("Sonnenuntergang " + String.valueOf(stadtList.get(postion).getSunset()));
-        sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT.format(sunsetDate));
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
+            sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT_API24.format(sunriseDate));
+            sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT_API24.format(sunsetDate));
+        }else{
+            sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT_API23.format(sunriseDate));
+            sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT_API23.format(sunsetDate));
+        }
         cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
-
         dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(letzteAktDate));
-        //dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(new Date(stadtList.get(postion).getDt()*1000)));
     }
 
     //Save StadtListe
@@ -182,6 +198,8 @@ public class FragmentDetails extends Fragment {
             }
         }
     }
+
+
 
 
 }
