@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DatenBearbeiten {
@@ -20,6 +21,9 @@ public class DatenBearbeiten {
 
     //String Konstanten Volley
     final static String URL = "http://api.openweathermap.org/data/2.5/weather?appid=9e08d4137d8eaf7fc04882184d748f0e&units=metric&q=";
+
+    final static SimpleDateFormat UHRZEIT = new SimpleDateFormat ("HH:mm:ss");
+    final static SimpleDateFormat DATUM = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     //String Konstanten Tags
     public static final String TAG = "VolleyTAG";

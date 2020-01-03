@@ -1,8 +1,12 @@
 package de.fh_kiel.iue.mob;
 
+import java.util.Date;
+
 public class Stadt {
 
     private String stadtName;
+    private long dt;
+    private long timezone;
     private Main main;
     private Wind wind;
     private Sys sys;
@@ -67,6 +71,13 @@ public class Stadt {
         this.stadtName = stadtName;
     }
 
+    public long getDt () {
+        return dt;
+    }
+
+    public long getTimezone() {
+        return timezone;
+    }
 
     public double getTemp () {
         return main.temp;
@@ -96,11 +107,11 @@ public class Stadt {
         return wind.deg;
     }
 
-    public double getSunrise(){
+    public long getSunrise(){
         return sys.sunrise;
     }
 
-    public double getSunset(){
+    public long getSunset(){
         return sys.sunset;
     }
 
@@ -109,6 +120,8 @@ public class Stadt {
     }
 
     public void setData (Stadt data){
+        this.dt = data.dt;
+        this.timezone = data.timezone;
         this.main = data.main;
         this.clouds = data.clouds;
         this.sys = data.sys;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static de.fh_kiel.iue.mob.FragmentStadtHinzfuegen.editText;
@@ -82,7 +84,7 @@ public class FragmentDetails extends Fragment {
                     datenAnzeigen(stadtList,position);
                     saveStadtList(stadtList);
                 } catch (Exception ex) {
-
+                    Toast.makeText(getActivity(),"keine Internetverbindung", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -92,6 +94,8 @@ public class FragmentDetails extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(DatenBearbeiten.TAG, "error fetching content: " + error.getMessage());
+                Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nÜberprüfen Sie Ihre Internetverbindung", Toast.LENGTH_LONG).show();
+                datenAnzeigen(stadtList,position);
             }
         };
 
@@ -119,6 +123,10 @@ public class FragmentDetails extends Fragment {
         final TextView sunrise = getActivity().findViewById(R.id.textViewSunrise);
         final TextView sunset = getActivity().findViewById(R.id.textViewSunset);
         final TextView cloud = getActivity().findViewById(R.id.textViewCloud);
+        final TextView dt = getActivity().findViewById(R.id.textViewDt);
+
+        Date sunriseDate =new Date((stadtList.get(postion).getSunrise()+stadtList.get(postion).getTimezone())*1000);
+        Date sunsetDate =new Date((stadtList.get(postion).getSunset()+stadtList.get(postion).getTimezone())*1000);
 
         stadt.setText(stadtList.get(postion).getStadtName());
         temp.setText("Temperatur :"+String.valueOf(stadtList.get(postion).getTemp()));
@@ -128,9 +136,13 @@ public class FragmentDetails extends Fragment {
         tempMax.setText("Temperatur max:" +String.valueOf(stadtList.get(postion).getTemp_max()));
         speed.setText("Wind " + String.valueOf(stadtList.get(postion).getSpeed()));
         deg.setText("Deg " +String.valueOf(stadtList.get(postion).getDeg()));
-        sunrise.setText("Sonnenaufgang " +String.valueOf(stadtList.get(postion).getSunrise()));
-        sunset.setText("Sonnenuntergang " + String.valueOf(stadtList.get(postion).getSunset()));
+        //sunrise.setText("Sonnenaufgang " +String.valueOf(stadtList.get(postion).getSunrise()));
+        sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT.format(sunriseDate));
+        //sunset.setText("Sonnenuntergang " + String.valueOf(stadtList.get(postion).getSunset()));
+        sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT.format(sunsetDate));
         cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
+
+        dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(new Date(stadtList.get(postion).getDt()*1000)));
     }
 
     //Save StadtListe

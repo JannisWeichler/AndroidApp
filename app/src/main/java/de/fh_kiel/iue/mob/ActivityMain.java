@@ -83,11 +83,14 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
+
         if(requestCode==2 && data != null)
         {
             DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
             FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
             fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
+        }else if (demo==false){
+            loadStadtList();
         }
     }
 
@@ -156,6 +159,9 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
         }
         else{
             DataContainer.daten.remove(position);
+            if (DataContainer.daten.size()<1){
+                DataContainer.daten.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN,new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
+            }
             myAdapter.notifyDataSetChanged();
             saveStadtList(DataContainer.daten);
         }

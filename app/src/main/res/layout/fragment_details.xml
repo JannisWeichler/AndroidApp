@@ -113,5 +113,14 @@
             android:textSize="28sp"
             android:typeface="serif" />
 
+        <TextView
+            android:id="@+id/textViewDt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/black"
+            android:textSize="28sp"
+            android:typeface="serif" />
+
     </LinearLayout>
 </FrameLayout>
