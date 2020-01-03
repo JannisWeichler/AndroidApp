@@ -12,28 +12,15 @@
         android:background="#2E00DDFF"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewStadtName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewStadtName"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="9"
-                android:text="@string/keine_stadt_ausgew_hlt"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="32sp"
-                android:typeface="serif" />
-
-            <ImageButton
-                android:id="@+id/imageButtonDeleteStadt"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_delete" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/keine_stadt_ausgew_hlt"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:typeface="serif" />
 
 
         <TextView

@@ -34,21 +34,9 @@ import static de.fh_kiel.iue.mob.FragmentStadtHinzfuegen.editText;
  */
 public class FragmentDetails extends Fragment {
 
-    //public static final String TAG = "VolleyTAG";
     List<Stadt> stadtList = new ArrayList<>();
     int position;
     Button buttonDelete;
-
-
-    public interface Listener{
-        void deleteStadt(int position);
-    }
-
-    Listener listener;
-    public void register (Listener listener){
-        this.listener = listener;
-    }
-
 
 
     public FragmentDetails() {
@@ -59,7 +47,6 @@ public class FragmentDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-        buttonDelete = getActivity().findViewById(R.id.imageButtonDeleteStadt);
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -120,8 +107,6 @@ public class FragmentDetails extends Fragment {
 
 
 
-
-
     public void datenAnzeigen(List<Stadt> stadtList, final Integer postion){
         final TextView stadt = getActivity().findViewById(R.id.textViewStadtName);
         final TextView temp = getActivity().findViewById(R.id.textViewTemp);
@@ -147,54 +132,6 @@ public class FragmentDetails extends Fragment {
         sunset.setText("Sonnenuntergang " + String.valueOf(stadtList.get(postion).getSunset()));
         cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
     }
-
-
-
-
-
-    /*public void neueStadt1(){
-        editText.setVisibility(View.VISIBLE);
-        button.setVisibility(View.VISIBLE);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String neueStadt = editText.getText().toString();
-
-                Stadt.Main main = new Stadt.Main(0,0,0,0,0);
-                Stadt.Wind wind = new Stadt.Wind(0,0);
-                Stadt.Sys sys = new Stadt.Sys(0,0);
-                Stadt.Cloud cloud = new Stadt.Cloud(0);
-                if (ActivityMain.DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
-                    ActivityMain.DataContainer.daten.clear();
-                }
-                ActivityMain.DataContainer.adddata(new Stadt(neueStadt,main,wind,sys,cloud));
-
-                listener.saveStadtList(ActivityMain.DataContainer.daten);
-                mAdapter.notifyDataSetChanged();
-                button.setVisibility(View.GONE);
-                editText.setVisibility(View.GONE);
-            }
-        });
-    }*/
-
-
-
-    public void onDelete(){
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stadtList.remove(position);
-                saveStadtList(stadtList);
-                listener.deleteStadt(position);
-            }
-        });
-    }
-
-
-
-
-
-
 
     //Save StadtListe
     public void saveStadtList (List<Stadt> stadtList){

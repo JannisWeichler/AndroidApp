@@ -10,5 +10,8 @@
     <item
         android:id="@+id/menue_neuestadt"
         android:title="Neue Stadt"/>
+    <item
+        android:id="@+id/menue_stadtlöschen"
+        android:title="Stadt löschen" />
 
 </menu>

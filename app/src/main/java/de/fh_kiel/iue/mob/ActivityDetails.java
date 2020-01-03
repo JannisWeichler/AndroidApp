@@ -32,13 +32,13 @@ public class ActivityDetails extends AppCompatActivity {
         orientationcheck();
     }
 
-
-    @Override
+// Würde sagen das brauchen wir nicht.. kannst du ja sonst löschen
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu,menu);
         return true;
-    }
+    } */
 
 
     private void orientationcheck(){

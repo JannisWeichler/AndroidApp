@@ -65,7 +65,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
                 Stadt.Wind wind = new Stadt.Wind(0,0);
                 Stadt.Sys sys = new Stadt.Sys(0,0);
                 Stadt.Cloud cloud = new Stadt.Cloud(0);
-                if (ActivityMain.DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
+                if (ActivityMain.DataContainer.daten.get(0).getStadtName().equals(DatenBearbeiten.KEINE_STADT_VORHANDEN)){
                     ActivityMain.DataContainer.daten.clear();
                 }
                 ActivityMain.DataContainer.adddata(new Stadt(neueStadt,main,wind,sys,cloud));
@@ -78,32 +78,6 @@ public class FragmentStadtHinzfuegen extends Fragment {
         });
     }
 
-
-    //Save StadtListe
-    public void saveStadtList (List<Stadt> stadtList){
-        FileOutputStream fos = null;
-
-        String stadtListString = DatenBearbeiten.listInStringStadt(ActivityMain.DataContainer.daten);
-
-
-        try {
-            fos = getActivity().openFileOutput(DatenBearbeiten.FILE_STADT, getActivity().MODE_PRIVATE);
-            fos.flush();
-            fos.write(stadtListString.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if (fos!=null){
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
 
 }

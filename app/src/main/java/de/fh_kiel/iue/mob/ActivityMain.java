@@ -31,14 +31,15 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class ActivityMain extends AppCompatActivity implements MyAdapter.Listener, MyAsyncTask.Listener, FragmentStadtHinzfuegen.Listener, FragmentDetails.Listener {
+public class ActivityMain extends AppCompatActivity implements MyAdapter.Listener, MyAsyncTask.Listener, FragmentStadtHinzfuegen.Listener {
 
-    public MyAdapter myAdapter = new MyAdapter(DataContainer.daten,this);
-    public ProgressBar progressBar;
-    public LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    private MyAdapter myAdapter = new MyAdapter(DataContainer.daten,this);
+    private ProgressBar progressBar;
+    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-    public static boolean demo=false;
-    public static boolean load=false;
+    protected static boolean demo=false;
+    protected static boolean load=false;
+    protected static boolean del=false;
 
 
 
@@ -60,10 +61,11 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
 
 
 
-        if (DataContainer.daten.get(0).getStadtName()==DatenBearbeiten.KEINE_STADT_VORHANDEN){
+        if (DataContainer.daten.get(0).getStadtName().equals(DatenBearbeiten.KEINE_STADT_VORHANDEN)){
             EditText editText = findViewById(R.id.editTextNeueStadt);
             Button button = findViewById(R.id.buttonNeueStadt);
             FragmentStadtHinzfuegen fragmentStadtHinzfuegen = new FragmentStadtHinzfuegen(editText,button,myAdapter);
+            fragmentStadtHinzfuegen.register(this);
             fragmentStadtHinzfuegen.neueStadt1();
         }
 
@@ -97,19 +99,12 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    @Override
-    public void deleteStadt(int position) {
-        FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        Toast.makeText(this,"Stadt gelöscht",Toast.LENGTH_LONG).show();
-        loadStadtList();
-        fragment.loadStadtlist(DataContainer.daten, position);
-    }
 
 
-    public static class DataContainer{
+    static class DataContainer{
         static List<Stadt> daten = new CopyOnWriteArrayList<>();
 
-        public static void adddata(Stadt stadt){
+        static void adddata(Stadt stadt){
             daten.add(stadt);
         }
     }
@@ -144,26 +139,27 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
 
     @Override
     public void itemClicked(int position){
-        if (DataContainer.daten.get(position).getStadtName()!=DatenBearbeiten.KEINE_STADT_VORHANDEN) {
-            if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
-                FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
-                fragment.loadStadtlist(DataContainer.daten, position);
-            } else {
-                String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
-                Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
-                intent.putExtra(DatenBearbeiten.DEMO, demo);
-                intent.putExtra(DatenBearbeiten.POSITION, position);
-                intent.putExtra(DatenBearbeiten.STADT_LISTE, stadtListString);
-                startActivityForResult(intent, 2);
+        if(del == false) {
+            if (DataContainer.daten.get(position).getStadtName() != DatenBearbeiten.KEINE_STADT_VORHANDEN) {
+                if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
+                    FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
+                    fragment.loadStadtlist(DataContainer.daten, position);
+                } else {
+                    String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
+                    Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
+                    intent.putExtra(DatenBearbeiten.DEMO, demo);
+                    intent.putExtra(DatenBearbeiten.POSITION, position);
+                    intent.putExtra(DatenBearbeiten.STADT_LISTE, stadtListString);
+                    startActivityForResult(intent, 2);
+                }
             }
         }
+        else{
+            DataContainer.daten.remove(position);
+            myAdapter.notifyDataSetChanged();
+            saveStadtList(DataContainer.daten);
+        }
     }
-
-
-
-
-
-
 
 
 
@@ -184,29 +180,10 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
     public void EchtDatenAnzeigen(){
         DataContainer.daten.clear();
         loadStadtList();
-        /*
-        Stadt.Main main = new Stadt.Main(0,0,0,0,0);
-        Stadt.Wind wind = new Stadt.Wind(0,0);
-        Stadt.Sys sys = new Stadt.Sys(0,0);
-        Stadt.Cloud cloud = new Stadt.Cloud(0);
-        DataContainer.adddata(new Stadt("Kiel",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Köln",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Kall",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("München",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Hamburg",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Leipzig",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Dortmund",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Frankfurt",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Jevenstedt",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Rom",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Madrid",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Mailand",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Chicago",main,wind,sys,cloud));
-        DataContainer.adddata(new Stadt("Seattle",main,wind,sys,cloud));
-        saveStadtList(DataContainer.daten);*/
         myAdapter.notifyDataSetChanged();
 
     }
+
 
 
 
@@ -230,6 +207,10 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
                     FragmentStadtHinzfuegen fragmentStadtHinzfuegen = new FragmentStadtHinzfuegen(editText, button, myAdapter);
                     fragmentStadtHinzfuegen.register(this);
                     fragmentStadtHinzfuegen.neueStadt1();
+                    return true;
+                case R.id.menue_stadtlöschen:
+                    del = true;
+                    Toast.makeText(this,"Stadt zum Löschen anklicken",Toast.LENGTH_LONG).show();
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -279,26 +260,28 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
 
     //Save StadtListe
     @Override
-    public void saveStadtList (List<Stadt> stadtList){
-        FileOutputStream fos = null;
+    public void saveStadtList (List<Stadt> stadtList) {
+        if (demo == false) {
+            FileOutputStream fos = null;
 
-        String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
+            String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
 
 
-        try {
-            fos = openFileOutput(DatenBearbeiten.FILE_STADT, MODE_PRIVATE);
-            fos.flush();
-            fos.write(stadtListString.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if (fos!=null){
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                fos = openFileOutput(DatenBearbeiten.FILE_STADT, MODE_PRIVATE);
+                fos.flush();
+                fos.write(stadtListString.getBytes());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

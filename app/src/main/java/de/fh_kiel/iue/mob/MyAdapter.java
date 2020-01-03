@@ -40,8 +40,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     mListener.itemClicked(pos);
+                    ActivityMain.del = false;
+
                 }
             });
+
         }
 
     }
