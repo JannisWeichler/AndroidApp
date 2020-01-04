@@ -1,26 +1,15 @@
 package de.fh_kiel.iue.mob;
 
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 
 
 import java.util.List;
@@ -72,6 +61,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
                 String neueStadt = editText.getText().toString();
 
 
+                Stadt.Weather[] weather = {new Stadt.Weather("noch nie geladen")};
                 Stadt.Main main = new Stadt.Main(0,0,0,0,0);
                 Stadt.Wind wind = new Stadt.Wind(0,0);
                 Stadt.Sys sys = new Stadt.Sys(0,0);
@@ -79,7 +69,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
                 if (ActivityMain.DataContainer.daten.get(0).getStadtName().equals(DatenBearbeiten.KEINE_STADT_VORHANDEN)){
                     ActivityMain.DataContainer.daten.clear();
                 }
-                ActivityMain.DataContainer.adddata(new Stadt(neueStadt,main,wind,sys,cloud));
+                ActivityMain.DataContainer.adddata(new Stadt(neueStadt, weather, main,wind,sys,cloud));
 
                 listener.saveStadtList(ActivityMain.DataContainer.daten);
                 mAdapter.notifyDataSetChanged();

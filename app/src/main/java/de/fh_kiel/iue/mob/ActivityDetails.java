@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
+
 
 
 import java.util.ArrayList;
@@ -32,14 +31,6 @@ public class ActivityDetails extends AppCompatActivity {
         orientationcheck();
     }
 
-// Würde sagen das brauchen wir nicht.. kannst du ja sonst löschen
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return true;
-    } */
-
 
     private void orientationcheck(){
         if(Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation){
@@ -55,12 +46,12 @@ public class ActivityDetails extends AppCompatActivity {
 
     public void datenAusgeben(){
         Intent intent = getIntent();
-
         stadtList = DatenBearbeiten.intentAuslesenStadtList(intent);
         position = DatenBearbeiten.intentAuslesenPosition(intent);
-
         FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment2);
         fragment.loadStadtlist(stadtList,position);
+        fragment.akt();
+
     }
 
 }

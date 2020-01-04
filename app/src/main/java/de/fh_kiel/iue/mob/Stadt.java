@@ -1,26 +1,32 @@
 package de.fh_kiel.iue.mob;
 
-import java.util.Date;
-
 public class Stadt {
 
     private String stadtName;
-    private long dt;
     private long timezone;
     private long letzteAkt;
+    private Weather[] weather;
     private Main main;
     private Wind wind;
     private Sys sys;
     private Cloud clouds;
 
-    Stadt(String stadtName, Main main, Wind wind, Sys sys, Cloud cloud){
+    Stadt(String stadtName, Weather[] weather, Main main, Wind wind, Sys sys, Cloud cloud){
         this.stadtName = stadtName;
+        this.weather = weather;
         this.main = main;
         this.wind = wind;
         this.sys = sys;
         this.clouds = cloud;
     }
 
+    public static class Weather{
+        String description;
+
+        Weather(String description){
+            this.description=description;
+        }
+    }
 
     public static class Main{
         double temp;
@@ -55,6 +61,7 @@ public class Stadt {
             this.sunset = sunset;
         }
     }
+
     public static class Cloud{
         int all;
         Cloud(int all){
@@ -80,8 +87,8 @@ public class Stadt {
         this.letzteAkt = letzeAkt;
     }
 
-    public long getDt () {
-        return dt;
+    public String getDescription() {
+        return weather[0].description;
     }
 
     public long getTimezone() {
@@ -129,9 +136,9 @@ public class Stadt {
     }
 
     public void setData (Stadt data){
-        this.dt = data.dt;
         this.timezone = data.timezone;
         this.letzteAkt = data.letzteAkt;
+        this.weather = data.weather;
         this.main = data.main;
         this.clouds = data.clouds;
         this.sys = data.sys;

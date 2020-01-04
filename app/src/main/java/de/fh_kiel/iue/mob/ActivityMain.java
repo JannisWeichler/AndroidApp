@@ -89,6 +89,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
             DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
             FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
             fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
+            fragment.akt();
         }else if (demo==false){
             loadStadtList();
         }
@@ -160,7 +161,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
         else{
             DataContainer.daten.remove(position);
             if (DataContainer.daten.size()<1){
-                DataContainer.daten.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN,new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
+                DataContainer.daten.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN, new Stadt.Weather[]{new Stadt.Weather("noch nie geladen")}, new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
             }
             myAdapter.notifyDataSetChanged();
             saveStadtList(DataContainer.daten);
@@ -257,7 +258,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
             }
         }
         if (stadtList.size()<1){
-            stadtList.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN,new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
+            stadtList.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN, new Stadt.Weather[]{new Stadt.Weather("Noch nie geladen")}, new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
         }
         DataContainer.daten.clear();
         DataContainer.daten.addAll(stadtList);

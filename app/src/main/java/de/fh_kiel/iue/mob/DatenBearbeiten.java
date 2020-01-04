@@ -21,7 +21,7 @@ public class DatenBearbeiten {
     final static String KEINE_STADT_VORHANDEN = "KEINE STADT VORHANDEN BITTE STADTNAMEN EINGEBEN";
 
     //String Konstanten Volley
-    final static String URL = "http://api.openweathermap.org/data/2.5/weather?appid=9e08d4137d8eaf7fc04882184d748f0e&units=metric&q=";
+    final static String URL = "http://api.openweathermap.org/data/2.5/weather?appid=9e08d4137d8eaf7fc04882184d748f0e&units=metric&lang=de&q=";
 
     final static SimpleDateFormat UHRZEIT_API24 =new SimpleDateFormat("HH:mm:ss");
     final static SimpleDateFormat UHRZEIT_API23 = new SimpleDateFormat ("HH:mm:ss zzz");

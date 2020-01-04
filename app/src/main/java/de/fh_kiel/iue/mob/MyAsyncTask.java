@@ -27,7 +27,7 @@ class MyAsyncTask extends AsyncTask<Integer,Integer,Boolean> {
 
         for(int i=0; i<= integers[0]; i+=integers[1]) {
             //mListener.fill(i,daten);
-            Stadt stadt = new Stadt("stadt " + i, new Stadt.Main(i, i, i, i, i), new Stadt.Wind(i, i), new Stadt.Sys(i, i), new Stadt.Cloud(i));
+            Stadt stadt = new Stadt("stadt " + i, new Stadt.Weather[]{new Stadt.Weather("noch nie geladen")}, new Stadt.Main(i, i, i, i, i), new Stadt.Wind(i, i), new Stadt.Sys(i, i), new Stadt.Cloud(i));
             ActivityMain.DataContainer.adddata(stadt);
             SystemClock.sleep(integers[2]);
             publishProgress(i);

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,6 @@ public class FragmentDetails extends Fragment {
 
     List<Stadt> stadtList = new ArrayList<>();
     int position;
-    Button buttonDelete;
 
 
     public FragmentDetails() {
@@ -52,6 +52,7 @@ public class FragmentDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
+
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -64,6 +65,8 @@ public class FragmentDetails extends Fragment {
 
             loadStadtVolley();
         }else {
+            long letzeAkt = System.currentTimeMillis();
+            stadtList.get(position).setLetzteAkt(letzeAkt);
             datenAnzeigen(stadtList, position);
         }
     }
@@ -134,6 +137,7 @@ public class FragmentDetails extends Fragment {
         final TextView sunset = getActivity().findViewById(R.id.textViewSunset);
         final TextView cloud = getActivity().findViewById(R.id.textViewCloud);
         final TextView dt = getActivity().findViewById(R.id.textViewDt);
+        final TextView description = getActivity().findViewById(R.id.textViewDescription);
 
 
         long sunriseEx = stadtList.get(postion).getSunrise()*1000;
@@ -153,24 +157,43 @@ public class FragmentDetails extends Fragment {
         }
 
 
-
         stadt.setText(stadtList.get(postion).getStadtName());
-        temp.setText("Temperatur :"+String.valueOf(stadtList.get(postion).getTemp()));
-        pressure.setText("Luftdruck :"+String.valueOf(stadtList.get(postion).getPressure()));
-        humidity.setText("Feuchtigkeit :"+String.valueOf(stadtList.get(postion).getHumidity()));
-        tempMin.setText("Temperatur min :"+ String.valueOf(stadtList.get(postion).getTemp_min()));
-        tempMax.setText("Temperatur max:" +String.valueOf(stadtList.get(postion).getTemp_max()));
-        speed.setText("Wind " + String.valueOf(stadtList.get(postion).getSpeed()));
-        deg.setText("Deg " +String.valueOf(stadtList.get(postion).getDeg()));
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
-            sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT_API24.format(sunriseDate));
-            sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT_API24.format(sunsetDate));
-        }else{
-            sunrise.setText("Sonnenaufgang " + DatenBearbeiten.UHRZEIT_API23.format(sunriseDate));
-            sunset.setText("Sonnenuntergang " + DatenBearbeiten.UHRZEIT_API23.format(sunsetDate));
+        description.setText(stadtList.get(postion).getDescription());
+        temp.setText("Temperatur: "+String.valueOf(stadtList.get(postion).getTemp())+"°C");
+        pressure.setText("Luftdruck: "+String.valueOf(stadtList.get(postion).getPressure()) + "hPa");
+        humidity.setText("Lufteuchtigkeit: "+String.valueOf(stadtList.get(postion).getHumidity()) + "%");
+        tempMin.setText("Min: "+ String.valueOf(stadtList.get(postion).getTemp_min())+"°C");
+        tempMax.setText("Max: " +String.valueOf(stadtList.get(postion).getTemp_max())+"°C");
+        speed.setText("Windgeschwindigkeit: " + String.valueOf(stadtList.get(postion).getSpeed()*3.6) +"km/h");
+
+
+        if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
+            deg.setText("Windrichtung: Nord" +  String.valueOf(stadtList.get(postion).getDeg()));
+        }else if (stadtList.get(postion).getDeg()<=67){
+            deg.setText("Windrichtung: Nord-Ost");
+        }else if (stadtList.get(postion).getDeg()<=112){
+            deg.setText("Windrichtung: Ost");
+        }else if (stadtList.get(postion).getDeg()<=157){
+            deg.setText("Windrichtung: Süd-Ost");
+        }else if (stadtList.get(postion).getDeg()<=202){
+            deg.setText("Windrichtung: Süd");
+        }else if (stadtList.get(postion).getDeg()<=247){
+            deg.setText("Windrichtung: Süd-West");
+        }else if (stadtList.get(postion).getDeg()<=292){
+            deg.setText("Windrichtung: West");
+        }else if (stadtList.get(postion).getDeg()<=337) {
+            deg.setText("Windrichtung: Nord-West");
         }
-        cloud.setText("Wolken " +String.valueOf(stadtList.get(postion).getCloudAll()));
-        dt.setText("Letzte Aktualisierung: " + DatenBearbeiten.DATUM.format(letzteAktDate));
+
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
+            sunrise.setText("Sonnenaufgang: " + DatenBearbeiten.UHRZEIT_API24.format(sunriseDate));
+            sunset.setText("Sonnenuntergang: " + DatenBearbeiten.UHRZEIT_API24.format(sunsetDate));
+        }else{
+            sunrise.setText("Sonnenaufgang: " + DatenBearbeiten.UHRZEIT_API23.format(sunriseDate));
+            sunset.setText("Sonnenuntergang: " + DatenBearbeiten.UHRZEIT_API23.format(sunsetDate));
+        }
+        cloud.setText("Bewölkung: " + String.valueOf(stadtList.get(postion).getCloudAll()) + "%");
+        dt.setText("Letzte Aktualisierung: \n" + DatenBearbeiten.DATUM.format(letzteAktDate));
     }
 
     //Save StadtListe
@@ -200,6 +223,18 @@ public class FragmentDetails extends Fragment {
     }
 
 
+    public void akt(){
+        ImageButton imageButton = getActivity().findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityMain.demo==false) {
 
-
+                    loadStadtVolley();
+                }else {
+                    datenAnzeigen(stadtList, position);
+                }
+            }
+        });
+    }
 }
