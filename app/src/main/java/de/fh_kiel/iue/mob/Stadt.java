@@ -75,10 +75,6 @@ public class Stadt {
         return stadtName;
     }
 
-    public void setStadtName (String stadtName){
-        this.stadtName = stadtName;
-    }
-
     public long getLetzteAkt() {
         return letzteAkt;
     }

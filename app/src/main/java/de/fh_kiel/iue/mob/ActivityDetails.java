@@ -13,9 +13,7 @@ import java.util.List;
 
 public class ActivityDetails extends AppCompatActivity {
 
-    public static final String STADTNAME = "Stadtname";
     List<Stadt> stadtList = new ArrayList<>();
-    ArrayList<String> auslesenArrayList;
     int position;
 
 

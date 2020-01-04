@@ -6,12 +6,10 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -164,7 +162,7 @@ public class FragmentDetails extends Fragment {
         humidity.setText("Lufteuchtigkeit: "+String.valueOf(stadtList.get(postion).getHumidity()) + "%");
         tempMin.setText("Min: "+ String.valueOf(stadtList.get(postion).getTemp_min())+"°C");
         tempMax.setText("Max: " +String.valueOf(stadtList.get(postion).getTemp_max())+"°C");
-        speed.setText("Windgeschwindigkeit: " + String.valueOf(stadtList.get(postion).getSpeed()*3.6) +"km/h");
+        speed.setText("Windgeschwindigkeit: " + ((stadtList.get(postion).getSpeed()*100000)*3.6)/100000 +"km/h");
 
 
         if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
