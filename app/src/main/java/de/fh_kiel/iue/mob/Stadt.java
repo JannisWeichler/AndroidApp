@@ -20,7 +20,7 @@ public class Stadt {
         this.clouds = cloud;
     }
 
-    public static class Weather{
+    static class Weather{
         String description;
 
         Weather(String description){
@@ -28,7 +28,7 @@ public class Stadt {
         }
     }
 
-    public static class Main{
+    static class Main{
         double temp;
         int pressure;
         int humidity;
@@ -44,7 +44,7 @@ public class Stadt {
         }
     }
 
-    public static class Wind{
+    static class Wind{
         double speed;
         int deg;
         Wind(double speed,int deg){
@@ -53,7 +53,7 @@ public class Stadt {
         }
     }
 
-    public static class Sys{
+    static class Sys{
         long sunrise;
         long sunset;
         Sys(long sunrise,long sunset){
@@ -62,7 +62,7 @@ public class Stadt {
         }
     }
 
-    public static class Cloud{
+    static class Cloud{
         int all;
         Cloud(int all){
             this.all = all;
@@ -71,67 +71,67 @@ public class Stadt {
 
 
     //Ein-/ Auslesen
-    public String getStadtName (){
+    String getStadtName(){
         return stadtName;
     }
 
-    public long getLetzteAkt() {
+    long getLetzteAkt() {
         return letzteAkt;
     }
 
-    public void setLetzteAkt(long letzeAkt){
+    void setLetzteAkt(long letzeAkt){
         this.letzteAkt = letzeAkt;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return weather[0].description;
     }
 
-    public long getTimezone() {
+    long getTimezone() {
         return timezone;
     }
 
-    public double getTemp () {
+    double getTemp() {
         return main.temp;
     }
 
-    public int getPressure () {
+    int getPressure() {
         return main.pressure;
     }
 
-    public int getHumidity () {
+    int getHumidity() {
         return main.humidity;
     }
 
-    public double getTemp_min(){
+    double getTemp_min(){
         return main.temp_min;
     }
 
-    public double getTemp_max(){
+    double getTemp_max(){
         return main.temp_max;
     }
 
-    public double getSpeed(){
+    double getSpeed(){
         return wind.speed;
     }
 
-    public int getDeg(){
+    int getDeg(){
         return wind.deg;
     }
 
-    public long getSunrise(){
+    long getSunrise(){
         return sys.sunrise;
     }
 
-    public long getSunset(){
+    long getSunset(){
         return sys.sunset;
     }
 
-    public int getCloudAll(){
+    int getCloudAll(){
         return clouds.all;
     }
 
-    public void setData (Stadt data){
+    void setData(Stadt data){
         this.timezone = data.timezone;
         this.letzteAkt = data.letzteAkt;
         this.weather = data.weather;

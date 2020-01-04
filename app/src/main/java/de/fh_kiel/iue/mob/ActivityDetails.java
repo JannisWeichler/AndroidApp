@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ActivityDetails extends AppCompatActivity {
 
@@ -47,7 +48,7 @@ public class ActivityDetails extends AppCompatActivity {
         stadtList = DatenBearbeiten.intentAuslesenStadtList(intent);
         position = DatenBearbeiten.intentAuslesenPosition(intent);
         FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment2);
-        fragment.loadStadtlist(stadtList,position);
+        Objects.requireNonNull(fragment).loadStadtlist(stadtList,position);
         fragment.akt();
 
     }

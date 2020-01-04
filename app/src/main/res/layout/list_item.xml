@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/background_light"
         android:backgroundTintMode="src_atop"
-        android:text="TextView"
         android:textColor="@android:color/background_dark"
         android:textSize="32sp"
         android:typeface="serif" />

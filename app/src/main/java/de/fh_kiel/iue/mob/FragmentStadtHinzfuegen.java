@@ -24,8 +24,8 @@ public class FragmentStadtHinzfuegen extends Fragment {
         void saveStadtList(List<Stadt> stadtList);
     }
 
-    Listener listener;
-    public void register (Listener listener){
+    private Listener listener;
+    void register(Listener listener){
         this.listener = listener;
     }
 
@@ -33,9 +33,9 @@ public class FragmentStadtHinzfuegen extends Fragment {
         // Required empty public constructor
     }
 
-    static EditText editText;
-    static Button button;
-    static MyAdapter mAdapter;
+    private EditText editText;
+    private Button button;
+    private static MyAdapter mAdapter;
 
     FragmentStadtHinzfuegen(EditText editText, Button button, MyAdapter adapter){
         this.editText = editText;
@@ -52,7 +52,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
         return inflater.inflate(R.layout.fragment_neue_stadt, container, false);
     }
 
-    public void neueStadt1(){
+    void neueStadt1(){
         editText.setVisibility(View.VISIBLE);
         button.setVisibility(View.VISIBLE);
         button.setOnClickListener(new View.OnClickListener() {

@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Objects;
 
 
 /**
@@ -36,8 +36,8 @@ import java.util.List;
  */
 public class FragmentDetails extends Fragment {
 
-    List<Stadt> stadtList = new ArrayList<>();
-    int position;
+    private List<Stadt> stadtList = new ArrayList<>();
+    private int position;
 
 
     public FragmentDetails() {
@@ -56,10 +56,10 @@ public class FragmentDetails extends Fragment {
     }
 
 
-    public void loadStadtlist(List<Stadt> newstadtList, int position){
+    void loadStadtlist(List<Stadt> newstadtList, int position){
         this.position = position;
         stadtList=newstadtList;
-        if (ActivityMain.demo==false) {
+        if (!ActivityMain.demo) {
 
             loadStadtVolley();
         }else {
@@ -73,9 +73,9 @@ public class FragmentDetails extends Fragment {
 
 
     //Daten aus Internet Laden
-    void loadStadtVolley(){
+    private void loadStadtVolley(){
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
         final String stadtname = stadtList.get(position).getStadtName();
 
 
@@ -105,8 +105,9 @@ public class FragmentDetails extends Fragment {
                 if (error.networkResponse!=null && error.networkResponse.statusCode==404){
                     Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nStadt konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
                 }else
-                Toast.makeText(getActivity(),"Datenaktualisierung Fehlgeschlagen\nÜberprüfen Sie Ihre Internetverbindung", Toast.LENGTH_LONG).show();
-                datenAnzeigen(stadtList,position);
+                    Toast.makeText(getActivity(), "Datenaktualisierung Fehlgeschlagen\nÜberprüfen Sie Ihre Internetverbindung", Toast.LENGTH_LONG).show();
+                    datenAnzeigen(stadtList, position);
+
             }
         };
 
@@ -122,8 +123,8 @@ public class FragmentDetails extends Fragment {
 
 
 
-    public void datenAnzeigen(List<Stadt> stadtList, final Integer postion){
-        final TextView stadt = getActivity().findViewById(R.id.textViewStadtName);
+    private void datenAnzeigen(List<Stadt> stadtList, final Integer postion){
+        final TextView stadt = Objects.requireNonNull(getActivity()).findViewById(R.id.textViewStadtName);
         final TextView temp = getActivity().findViewById(R.id.textViewTemp);
         final TextView pressure = getActivity().findViewById(R.id.textViewPressure);
         final TextView humidity = getActivity().findViewById(R.id.textViewHumidity);
@@ -157,16 +158,16 @@ public class FragmentDetails extends Fragment {
 
         stadt.setText(stadtList.get(postion).getStadtName());
         description.setText(stadtList.get(postion).getDescription());
-        temp.setText("Temperatur: "+String.valueOf(stadtList.get(postion).getTemp())+"°C");
-        pressure.setText("Luftdruck: "+String.valueOf(stadtList.get(postion).getPressure()) + "hPa");
-        humidity.setText("Lufteuchtigkeit: "+String.valueOf(stadtList.get(postion).getHumidity()) + "%");
-        tempMin.setText("Min: "+ String.valueOf(stadtList.get(postion).getTemp_min())+"°C");
-        tempMax.setText("Max: " +String.valueOf(stadtList.get(postion).getTemp_max())+"°C");
-        speed.setText("Windgeschwindigkeit: " + ((stadtList.get(postion).getSpeed()*100000)*3.6)/100000 +"km/h");
+        temp.setText(String.format("Temperatur: %s°C", String.valueOf(stadtList.get(postion).getTemp())));
+        pressure.setText(String.format("Luftdruck: %shPa", String.valueOf(stadtList.get(postion).getPressure())));
+        humidity.setText(String.format("Lufteuchtigkeit: %s%%", String.valueOf(stadtList.get(postion).getHumidity())));
+        tempMin.setText(String.format("Min: %s°C", String.valueOf(stadtList.get(postion).getTemp_min())));
+        tempMax.setText(String.format("Max: %s°C", String.valueOf(stadtList.get(postion).getTemp_max())));
+        speed.setText(String.format("Windgeschwindigkeit: %skm/h", ((stadtList.get(postion).getSpeed() * 100000) * 3.6) / 100000));
 
 
         if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
-            deg.setText("Windrichtung: Nord" +  String.valueOf(stadtList.get(postion).getDeg()));
+            deg.setText(String.format("Windrichtung: Nord%s", String.valueOf(stadtList.get(postion).getDeg())));
         }else if (stadtList.get(postion).getDeg()<=67){
             deg.setText("Windrichtung: Nord-Ost");
         }else if (stadtList.get(postion).getDeg()<=112){
@@ -184,25 +185,25 @@ public class FragmentDetails extends Fragment {
         }
 
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
-            sunrise.setText("Sonnenaufgang: " + DatenBearbeiten.UHRZEIT_API24.format(sunriseDate));
-            sunset.setText("Sonnenuntergang: " + DatenBearbeiten.UHRZEIT_API24.format(sunsetDate));
+            sunrise.setText(String.format("Sonnenaufgang: %s", DatenBearbeiten.UHRZEIT_API24.format(sunriseDate)));
+            sunset.setText(String.format("Sonnenuntergang: %s", DatenBearbeiten.UHRZEIT_API24.format(sunsetDate)));
         }else{
-            sunrise.setText("Sonnenaufgang: " + DatenBearbeiten.UHRZEIT_API23.format(sunriseDate));
-            sunset.setText("Sonnenuntergang: " + DatenBearbeiten.UHRZEIT_API23.format(sunsetDate));
+            sunrise.setText(String.format("Sonnenaufgang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunriseDate)));
+            sunset.setText(String.format("Sonnenuntergang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunsetDate)));
         }
-        cloud.setText("Bewölkung: " + String.valueOf(stadtList.get(postion).getCloudAll()) + "%");
-        dt.setText("Letzte Aktualisierung: \n" + DatenBearbeiten.DATUM.format(letzteAktDate));
+        cloud.setText(String.format("Bewölkung: %s%%", String.valueOf(stadtList.get(postion).getCloudAll())));
+        dt.setText(String.format("Letzte Aktualisierung: %n%s", DatenBearbeiten.DATUM.format(letzteAktDate)));
     }
 
     //Save StadtListe
-    public void saveStadtList (List<Stadt> stadtList){
+    private void saveStadtList(List<Stadt> stadtList){
         FileOutputStream fos = null;
 
         String stadtListString = DatenBearbeiten.listInStringStadt(stadtList);
 
 
         try {
-            fos = getActivity().openFileOutput(DatenBearbeiten.FILE_STADT, getActivity().MODE_PRIVATE);
+            fos = Objects.requireNonNull(getActivity()).openFileOutput(DatenBearbeiten.FILE_STADT, getActivity().MODE_PRIVATE);
             fos.flush();
             fos.write(stadtListString.getBytes());
         } catch (FileNotFoundException e) {

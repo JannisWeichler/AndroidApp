@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="keine_stadt_ausgew_hlt">keine Stadt ausgewählt</string>
+    <string name="stadtauswahl">Stadtauswahl</string>
+    <string name="hinzufuegen">Hinzufügen</string>
 </resources>

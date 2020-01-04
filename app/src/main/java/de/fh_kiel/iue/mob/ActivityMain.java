@@ -54,7 +54,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
             DataContainer.daten.addAll(DatenBearbeiten.stringAuslesenStadtList(savedInstanceState.getString(DatenBearbeiten.STADT_LISTE)));
             demo = savedInstanceState.getBoolean(DatenBearbeiten.DEMO);
         }else{
-            if (demo==false){
+            if (!demo){
                 loadStadtList();
             }
         }
@@ -88,9 +88,11 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
         {
             DataContainer.daten = DatenBearbeiten.intentAuslesenStadtList(data);
             FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
-            fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
-            fragment.akt();
-        }else if (demo==false){
+            if (fragment != null) {
+                fragment.loadStadtlist(DataContainer.daten, DatenBearbeiten.intentAuslesenPosition(data));
+                fragment.akt();
+            }
+        }else if (!demo){
             loadStadtList();
         }
     }
@@ -127,7 +129,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
     @Override
     public void toastausgeben(Boolean result) {
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(this,"Hat geklappt "+ result,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Daten geladen",Toast.LENGTH_SHORT).show();
         load=false;
     }
 
@@ -143,11 +145,13 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
 
     @Override
     public void itemClicked(int position){
-        if(del == false) {
-            if (DataContainer.daten.get(position).getStadtName() != DatenBearbeiten.KEINE_STADT_VORHANDEN) {
+        if(!del) {
+            if (!DataContainer.daten.get(position).getStadtName().equals(DatenBearbeiten.KEINE_STADT_VORHANDEN)) {
                 if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
                     FragmentDetails fragment = (FragmentDetails) getSupportFragmentManager().findFragmentById(R.id.fragment);
-                    fragment.loadStadtlist(DataContainer.daten, position);
+                    if (fragment != null) {
+                        fragment.loadStadtlist(DataContainer.daten, position);
+                    }
                 } else {
                     String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
                     Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
@@ -197,7 +201,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if (load==false) {
+        if (!load) {
             switch (item.getItemId()) {
                 case R.id.menue_demodaten:
                     load = true;

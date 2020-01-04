@@ -18,14 +18,14 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/buttonNeueStadt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hinzufügen"
+            android:text="@string/hinzufuegen"
             android:visibility="gone" />
     </LinearLayout>
 
