@@ -167,21 +167,21 @@ public class FragmentDetails extends Fragment {
 
 
         if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
-            deg.setText("Windrichtung: Nord");
+            deg.setText(R.string.wr_nord);
         }else if (stadtList.get(postion).getDeg()<=67){
-            deg.setText("Windrichtung: Nord-Ost");
+            deg.setText(R.string.wrNordOst);
         }else if (stadtList.get(postion).getDeg()<=112){
-            deg.setText("Windrichtung: Ost");
+            deg.setText(R.string.wrOst);
         }else if (stadtList.get(postion).getDeg()<=157){
-            deg.setText("Windrichtung: Süd-Ost");
+            deg.setText(R.string.wrSuedOst);
         }else if (stadtList.get(postion).getDeg()<=202){
-            deg.setText("Windrichtung: Süd");
+            deg.setText(R.string.wrSued);
         }else if (stadtList.get(postion).getDeg()<=247){
-            deg.setText("Windrichtung: Süd-West");
+            deg.setText(R.string.wrSuedWest);
         }else if (stadtList.get(postion).getDeg()<=292){
-            deg.setText("Windrichtung: West");
+            deg.setText(R.string.wrWest);
         }else if (stadtList.get(postion).getDeg()<=337) {
-            deg.setText("Windrichtung: Nord-West");
+            deg.setText(R.string.wrNordWest);
         }
 
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){

@@ -7,4 +7,12 @@
     <string name="stadtauswahl">Stadtauswahl</string>
     <string name="hinzufuegen">Hinzufügen</string>
     <string name="stadtname">Stadtname</string>
+    <string name="wr_nord">Windrichtung: Nord</string>
+    <string name="wrNordOst">Windrichtung: Nord-Ost</string>
+    <string name="wrOst">Windrichtung: Ost</string>
+    <string name="wrSuedOst">Windrichtung: Süd-Ost</string>
+    <string name="wrSued">Windrichtung: Süd</string>
+    <string name="wrSuedWest">Windrichtung: Süd-West</string>
+    <string name="wrWest">Windrichtung: West</string>
+    <string name="wrNordWest">Windrichtung: Nord-West</string>
 </resources>
