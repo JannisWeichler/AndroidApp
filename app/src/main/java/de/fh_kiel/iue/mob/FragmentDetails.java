@@ -163,7 +163,7 @@ public class FragmentDetails extends Fragment {
         humidity.setText(String.format("Lufteuchtigkeit: %s%%", String.valueOf(stadtList.get(postion).getHumidity())));
         tempMin.setText(String.format("Min: %s°C", String.valueOf(stadtList.get(postion).getTemp_min())));
         tempMax.setText(String.format("Max: %s°C", String.valueOf(stadtList.get(postion).getTemp_max())));
-        speed.setText(String.format("Windgeschwindigkeit: %skm/h", ((stadtList.get(postion).getSpeed() * 100000) * 3.6) / 100000));
+        speed.setText(String.format("Windgeschwindigkeit: %skm/h", ((stadtList.get(postion).getSpeed()*3.6))));
 
 
         if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
@@ -222,12 +222,12 @@ public class FragmentDetails extends Fragment {
     }
 
 
-    public void akt(){
-        ImageButton imageButton = getActivity().findViewById(R.id.imageButton);
+    void akt(){
+        ImageButton imageButton = Objects.requireNonNull(getActivity()).findViewById(R.id.imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityMain.demo==false) {
+                if (!ActivityMain.demo) {
 
                     loadStadtVolley();
                 }else {

@@ -164,7 +164,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
         }
         else{
             DataContainer.daten.remove(position);
-            if (DataContainer.daten.size()<1){
+            if (DataContainer.daten.isEmpty()){
                 DataContainer.daten.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN, new Stadt.Weather[]{new Stadt.Weather("noch nie geladen")}, new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
             }
             myAdapter.notifyDataSetChanged();
@@ -261,7 +261,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
                 }
             }
         }
-        if (stadtList.size()<1){
+        if (stadtList.isEmpty()){
             stadtList.add(new Stadt(DatenBearbeiten.KEINE_STADT_VORHANDEN, new Stadt.Weather[]{new Stadt.Weather("Noch nie geladen")}, new Stadt.Main(0,0,0,0, 0),new Stadt.Wind(0,0), new Stadt.Sys(0,0),new Stadt.Cloud(0)));
         }
         DataContainer.daten.clear();
@@ -272,7 +272,7 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
     //Save StadtListe
     @Override
     public void saveStadtList (List<Stadt> stadtList) {
-        if (demo == false) {
+        if (!demo) {
             FileOutputStream fos = null;
 
             String stadtListString = DatenBearbeiten.listInStringStadt(DataContainer.daten);
