@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -248,11 +247,9 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
                stadtList.addAll(DatenBearbeiten.stringAuslesenStadtList(text));
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (fis != null){
                 try {
                     fis.close();
@@ -282,8 +279,6 @@ public class ActivityMain extends AppCompatActivity implements MyAdapter.Listene
                 fos = openFileOutput(DatenBearbeiten.FILE_STADT, MODE_PRIVATE);
                 fos.flush();
                 fos.write(stadtListString.getBytes());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

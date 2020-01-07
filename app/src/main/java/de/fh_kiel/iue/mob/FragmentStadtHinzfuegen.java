@@ -61,7 +61,7 @@ public class FragmentStadtHinzfuegen extends Fragment {
                 String neueStadt = editText.getText().toString();
 
 
-                Stadt.Weather[] weather = {new Stadt.Weather("noch nie geladen")};
+                Stadt.Weather[] weather = {new Stadt.Weather("Noch Nie Geladen")};
                 Stadt.Main main = new Stadt.Main(0,0,0,0,0);
                 Stadt.Wind wind = new Stadt.Wind(0,0);
                 Stadt.Sys sys = new Stadt.Sys(0,0);

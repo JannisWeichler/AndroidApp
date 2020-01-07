@@ -6,4 +6,5 @@
     <string name="keine_stadt_ausgew_hlt">keine Stadt ausgewählt</string>
     <string name="stadtauswahl">Stadtauswahl</string>
     <string name="hinzufuegen">Hinzufügen</string>
+    <string name="stadtname">Stadtname</string>
 </resources>

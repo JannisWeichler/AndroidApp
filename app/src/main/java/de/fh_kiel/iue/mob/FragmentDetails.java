@@ -1,6 +1,7 @@
 package de.fh_kiel.iue.mob;
 
 
+import android.content.res.Configuration;
 import android.icu.util.TimeZone;
 import android.os.Bundle;
 
@@ -22,7 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -158,16 +158,16 @@ public class FragmentDetails extends Fragment {
 
         stadt.setText(stadtList.get(postion).getStadtName());
         description.setText(stadtList.get(postion).getDescription());
-        temp.setText(String.format("Temperatur: %s°C", String.valueOf(stadtList.get(postion).getTemp())));
+        temp.setText(String.format("Temperatur: %s°C", DatenBearbeiten.DECIMAL_FORMAT.format(stadtList.get(postion).getTemp())));
         pressure.setText(String.format("Luftdruck: %shPa", String.valueOf(stadtList.get(postion).getPressure())));
-        humidity.setText(String.format("Lufteuchtigkeit: %s%%", String.valueOf(stadtList.get(postion).getHumidity())));
-        tempMin.setText(String.format("Min: %s°C", String.valueOf(stadtList.get(postion).getTemp_min())));
-        tempMax.setText(String.format("Max: %s°C", String.valueOf(stadtList.get(postion).getTemp_max())));
-        speed.setText(String.format("Windgeschwindigkeit: %skm/h", ((stadtList.get(postion).getSpeed()*3.6))));
+        humidity.setText(String.format("Luftfeuchtigkeit: %s%%", String.valueOf(stadtList.get(postion).getHumidity())));
+        tempMin.setText(String.format("Min: %s°C", DatenBearbeiten.DECIMAL_FORMAT.format(stadtList.get(postion).getTemp_min())));
+        tempMax.setText(String.format("Max: %s°C", DatenBearbeiten.DECIMAL_FORMAT.format(stadtList.get(postion).getTemp_max())));
+        speed.setText(String.format("Windgeschwindigkeit: %skm/h", (DatenBearbeiten.DECIMAL_FORMAT.format(stadtList.get(postion).getSpeed()*3.6))));
 
 
         if (stadtList.get(postion).getDeg()<=22||stadtList.get(postion).getDeg()>=338){
-            deg.setText(String.format("Windrichtung: Nord%s", String.valueOf(stadtList.get(postion).getDeg())));
+            deg.setText("Windrichtung: Nord");
         }else if (stadtList.get(postion).getDeg()<=67){
             deg.setText("Windrichtung: Nord-Ost");
         }else if (stadtList.get(postion).getDeg()<=112){
@@ -188,8 +188,14 @@ public class FragmentDetails extends Fragment {
             sunrise.setText(String.format("Sonnenaufgang: %s", DatenBearbeiten.UHRZEIT_API24.format(sunriseDate)));
             sunset.setText(String.format("Sonnenuntergang: %s", DatenBearbeiten.UHRZEIT_API24.format(sunsetDate)));
         }else{
-            sunrise.setText(String.format("Sonnenaufgang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunriseDate)));
-            sunset.setText(String.format("Sonnenuntergang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunsetDate)));
+            if(Configuration.ORIENTATION_LANDSCAPE==getResources().getConfiguration().orientation) {
+                sunrise.setText(String.format("Sonnenaufgang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunriseDate)));
+                sunset.setText(String.format("Sonnenuntergang: %s", DatenBearbeiten.UHRZEIT_API23.format(sunsetDate)));
+            }
+            else {
+                sunrise.setText(String.format("Sonnenaufgang:%n%s", DatenBearbeiten.UHRZEIT_API23.format(sunriseDate)));
+                sunset.setText(String.format("Sonnenuntergang:%n%s", DatenBearbeiten.UHRZEIT_API23.format(sunsetDate)));
+            }
         }
         cloud.setText(String.format("Bewölkung: %s%%", String.valueOf(stadtList.get(postion).getCloudAll())));
         dt.setText(String.format("Letzte Aktualisierung: %n%s", DatenBearbeiten.DATUM.format(letzteAktDate)));
@@ -206,11 +212,9 @@ public class FragmentDetails extends Fragment {
             fos = Objects.requireNonNull(getActivity()).openFileOutput(DatenBearbeiten.FILE_STADT, getActivity().MODE_PRIVATE);
             fos.flush();
             fos.write(stadtListString.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (fos!=null){
                 try {
                     fos.close();

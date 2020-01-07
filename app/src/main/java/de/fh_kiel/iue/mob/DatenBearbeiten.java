@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -23,15 +24,14 @@ public class DatenBearbeiten {
     //String Konstanten Volley
     static final String URL = "http://api.openweathermap.org/data/2.5/weather?appid=9e08d4137d8eaf7fc04882184d748f0e&units=metric&lang=de&q=";
 
-    static final SimpleDateFormat UHRZEIT_API24 =new SimpleDateFormat("HH:mm:ss");
-    static final SimpleDateFormat UHRZEIT_API23 = new SimpleDateFormat ("HH:mm:ss zzz");
-    static final SimpleDateFormat DATUM = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss zzz");
-
     //String Konstanten Tags
     static final String TAG = "VolleyTAG";
 
-
-
+    //DatenFormat Konstanten
+    static final SimpleDateFormat UHRZEIT_API24 =new SimpleDateFormat("HH:mm:ss");
+    static final SimpleDateFormat UHRZEIT_API23 = new SimpleDateFormat ("HH:mm:ss zzz");
+    static final SimpleDateFormat DATUM = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss zzz");
+    static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.0");
 
 
     //ObjektListe in String

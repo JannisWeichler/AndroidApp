@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
 
             </LinearLayout>
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:typeface="serif" />
             </LinearLayout>
 
